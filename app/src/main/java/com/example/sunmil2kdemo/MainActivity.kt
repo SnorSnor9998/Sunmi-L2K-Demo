@@ -16,17 +16,16 @@ class MainActivity : AppCompatActivity() {
     private val receiver = object : BroadcastReceiver() {
         @SuppressLint("SetTextI18n")
         override fun onReceive(p0: Context, p1: Intent) {
-            val code = p1.getStringExtra("data")
-            val arr = p1.getByteArrayExtra("source_byte")
-            if (code != null && code.isNotEmpty()) {
-                val str = StringBuilder()
-                str.append("Code: $code\n")
-                str.append("Byte: $arr\n")
-                str.append("B2S: ${String(arr!!)}\n")
-                binding.txt.text = str.toString()
+
+            val str = StringBuilder()
+            val keySet: Set<String> = p1.extras!!.keySet()
+            keySet.forEach {
+                str.append("key = $it || value = ${p1.extras!![it].toString()}\n")
             }
+            binding.txt.text = str.toString()
         }
     }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
